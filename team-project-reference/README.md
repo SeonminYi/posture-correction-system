@@ -9,7 +9,7 @@
 | 폴더 | 담당 영역 | 담당자 |
 |---|---|---|
 | `front_view/` | 정면 카메라 기반 자세 분석 (BlazePose) | A팀원 |
-| `side_view/` | 측면 카메라 기반 척추 자세 분석 (BlazePose+SpinePose Cascade) | **본인 (전담)** |
+| `side_view/` | 측면 카메라 기반 척추 자세 분석 (BlazePose+SpinePose Cascade) | **본인** |
 | `server/` | WebRTC 기반 실시간 영상 스트리밍 서버 | **본인 + B팀원 공동** |
 | `app/` | 사용자 애플리케이션/대시보드 | B팀원 |
 
