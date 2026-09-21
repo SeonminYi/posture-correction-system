@@ -70,10 +70,9 @@ logging.getLogger('absl').disabled = True
 neck_sum = 0      # Cumulative neck score (3 minutes)
 spine_sum = 0     # Cumulative spine score (3 minutes)
 
-#  뚮┝ 뚮옒洹 異붽
-neck_alert_flag = False    # True대㈃ 嫄곕턿紐 寃쎄퀬
-spine_alert_flag = False   # True대㈃ 泥숈텛 寃쎄퀬
-LAST_ALERT = None          # 곸꽭 뺣낫
+neck_alert_flag = False    
+spine_alert_flag = False   
+LAST_ALERT = None         
 
 def get_current_scores():
     """For Streamlit: Get current cumulative scores"""
@@ -117,9 +116,9 @@ class Config:
     DISPLAY_WINDOW_W: int = 480
     DISPLAY_WINDOW_H: int = 640
     
-    BP_PERIOD_MS: int = 500  #  슂泥 蹂寃
-    SP_PERIOD_MS: int = 550  #  슂泥 蹂寃
-    STICKY_MS: int = 550     #  슂泥 蹂寃
+    BP_PERIOD_MS: int = 500 
+    SP_PERIOD_MS: int = 550  
+    STICKY_MS: int = 550    
     SPINE_SCORE_TH: float = 0.1
     INFER_SCALE: float = 0.25
 
@@ -361,7 +360,7 @@ class PostureScoreManager:
     
     def __init__(self, window_sec: float = 10.0, max_duration_sec: float = 180.0):
         self.window_sec = window_sec
-        self.max_duration_sec = max_duration_sec  #  3遺 (180珥) 쒗븳
+        self.max_duration_sec = max_duration_sec 
         
         # Color history (recent 10 seconds)
         self.color_history = deque()
@@ -372,13 +371,13 @@ class PostureScoreManager:
         self.last_check_time = time.time()
         self.start_time = time.time()
         
-        self.scoring_ended = False  #  먯닔 怨꾩궛 醫낅즺 뚮옒洹
+        self.scoring_ended = False 
         
     def add_frame(self, neck_color: Tuple[int,int,int], spine_color: Tuple[int,int,int]):
         """Record neck/spine color every frame"""
         now = time.time()
+
         
-        #  3遺 寃쎄낵 泥댄겕
         elapsed = now - self.start_time
         if elapsed >= self.max_duration_sec and not self.scoring_ended:
             self.scoring_ended = True
@@ -387,7 +386,7 @@ class PostureScoreManager:
             print(f"[Final Score] neck_sum: {neck_sum}, spine_sum: {spine_sum}")
             print("="*70 + "\n")
         
-        #  3遺 댄썑먮뒗 덉뒪좊━ 異붽  
+
         if self.scoring_ended:
             return
         
@@ -403,7 +402,7 @@ class PostureScoreManager:
         global neck_sum, spine_sum, LAST_ALERT
         global neck_alert_flag, spine_alert_flag  #  異붽
         
-        #  3遺 댄썑먮뒗 됯  
+
         if self.scoring_ended:
             return None
         
@@ -504,7 +503,7 @@ class PostureScoreManager:
         print(f"  Green:  {neck_green:3d} ({neck_green_ratio:.1%})")
         print(f"  -> Result: {neck_segment_color} (neck_sum +{neck_delta})")
         if neck_alert:
-            print(f"  좑툘  Warning: Forward head posture alert!")
+            print(f"    Warning: Forward head posture alert!")
         print()
         print(f"[SPINE Evaluation]")
         print(f"  Red:    {spine_red:3d} ({spine_red_ratio:.1%})")
@@ -512,7 +511,7 @@ class PostureScoreManager:
         print(f"  Green:  {spine_green:3d} ({spine_green_ratio:.1%})")
         print(f"  -> Result: {spine_segment_color} (spine_sum +{spine_delta})")
         if spine_alert:
-            print(f"  좑툘  Warning: Spinal curvature alert!")
+            print(f"    Warning: Spinal curvature alert!")
         print()
         print(f"[Cumulative Scores]")
         print(f"  neck_sum:  {neck_sum - neck_delta} -> {neck_sum} (+{neck_delta})")
@@ -521,17 +520,17 @@ class PostureScoreManager:
         
         #  Update alert flags (only RED triggers alert)
         if neck_alert:
-            neck_alert_flag = True  #  뚮옒洹 ㅼ젙
+            neck_alert_flag = True  
             LAST_ALERT = {
                 'type': 'neck',
                 'timestamp': now,
                 'score': neck_sum,
                 'segment': segment_num
             }
-            print(f"슚 [ALERT FLAG] neck_alert_flag = True\n")
+            print(f" [ALERT FLAG] neck_alert_flag = True\n")
         
         if spine_alert:
-            spine_alert_flag = True  #  뚮옒洹 ㅼ젙
+            spine_alert_flag = True
             LAST_ALERT = {
                 'type': 'spine',
                 'timestamp': now,
